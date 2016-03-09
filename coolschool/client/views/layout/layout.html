@@ -118,7 +118,7 @@
 </template>
 
 <template name="PrivateLayoutLeftMenu">
-	<ul id="menu-items" class="nav navbar-nav">
+	<ul id="menu-items" class="nav navbar-nav nav-pills">
 		<li id="menu-item-simple" class="{{menuItemClass 'home_private'}}">
 			<a href="{{pathFor 'home_private'}}">
 				<span class="item-title">
@@ -133,33 +133,69 @@
 				</span>
 			</a>
 		</li>
-		<li id="menu-item-simple" class="{{menuItemClass 'services'}}">
-			<a href="{{pathFor 'services'}}">
+		<li id="menu-item-dropdown" class="dropdown ">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				<span class="item-title">
-					Services
+					Core
 				</span>
+				<b class="caret">
+				</b>
 			</a>
+			<ul id="menu-items" class="dropdown-menu">
+				<li class="{{menuItemClass 'services'}}">
+					<a href="{{pathFor 'services'}}">
+						<span class="item-title">
+							Services
+						</span>
+					</a>
+				</li>
+				<li class="{{menuItemClass 'years'}}">
+					<a href="{{pathFor 'years'}}">
+						<span class="item-title">
+							Years
+						</span>
+					</a>
+				</li>
+				<li class="{{menuItemClass 'subjects'}}">
+					<a href="{{pathFor 'subjects'}}">
+						<span class="item-title">
+							Subjects
+						</span>
+					</a>
+				</li>
+			</ul>
 		</li>
-		<li id="menu-item-simple" class="{{menuItemClass 'years'}}">
-			<a href="{{pathFor 'years'}}">
+		<li id="menu-item-dropdown" class="dropdown ">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				<span class="item-title">
-					Years
+					People
 				</span>
+				<b class="caret">
+				</b>
 			</a>
-		</li>
-		<li id="menu-item-simple" class="{{menuItemClass 'subjects'}}">
-			<a href="{{pathFor 'subjects'}}">
-				<span class="item-title">
-					Subjects
-				</span>
-			</a>
-		</li>
-		<li id="menu-item-simple" class="{{menuItemClass 'teachers'}}">
-			<a href="{{pathFor 'teachers'}}">
-				<span class="item-title">
-					Teachers
-				</span>
-			</a>
+			<ul id="menu-items" class="dropdown-menu">
+				<li class="{{menuItemClass 'parents'}}">
+					<a href="{{pathFor 'parents'}}">
+						<span class="item-title">
+							Parents
+						</span>
+					</a>
+				</li>
+				<li class="{{menuItemClass 'students'}}">
+					<a href="{{pathFor 'students'}}">
+						<span class="item-title">
+							Students
+						</span>
+					</a>
+				</li>
+				<li class="{{menuItemClass 'teachers'}}">
+					<a href="{{pathFor 'teachers'}}">
+						<span class="item-title">
+							Teachers
+						</span>
+					</a>
+				</li>
+			</ul>
 		</li>
 		<li id="menu-item-simple" class="{{menuItemClass 'courses'}}">
 			<a href="{{pathFor 'courses'}}">
@@ -168,25 +204,20 @@
 				</span>
 			</a>
 		</li>
-		<li id="menu-item-simple" class="{{menuItemClass 'parents'}}">
-			<a href="{{pathFor 'parents'}}">
-				<span class="item-title">
-					Parents
-				</span>
-			</a>
-		</li>
-		<li id="menu-item-simple" class="{{menuItemClass 'students'}}">
-			<a href="{{pathFor 'students'}}">
-				<span class="item-title">
-					Students
-				</span>
-			</a>
-		</li>
 	</ul>
 </template>
 
 <template name="PrivateLayoutRightMenu">
 	<ul id="menu-items" class="nav navbar-nav navbar-right">
+		<li id="menu-item-simple" class="{{menuItemClass 'admin'}}">
+			<a href="{{pathFor 'admin'}}">
+				<span class="fa fa-wrench">
+				</span>
+				<span class="item-title">
+					&nbsp;Admin
+				</span>
+			</a>
+		</li>
 		<li id="menu-item-dropdown" class="dropdown ">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				<span class="item-title">

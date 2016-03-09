@@ -2,11 +2,11 @@
 	"application": {
 		"title": "Hugues Schools",
 
-		"theme": "bootswatch-cosmo",
+		"theme": "bootswatch-flatly",
 
 		"on_user_created_code": "",
 
-		"roles" : ["admin","student","teacher","staff","manager", "guest"],
+		"roles" : ["admin","student","teacher","staff","manager", "guest", "user"],
 
 		"default_role":"guest",
 
@@ -600,6 +600,26 @@
 					]
 			},
 
+
+
+
+			{
+				"name": "admin_users",
+				"collection": "users",
+				"filter": {}
+			},
+			{
+				"name": "admin_user",
+				"collection": "users",
+				"filter": { "_id": ":userId" },
+				"find_one": true
+			},
+			{
+				"name": "users_null",
+				"collection": "users",
+				"filter": { "_id": null },
+				"find_one": true
+			},
 
 
 			{
@@ -1501,8 +1521,141 @@
 					]
 				},
 
+
+
+
+				{
+					"name": "admin",
+					"roles": ["admin"],
+					"pages": [
+						{
+							"name": "users",
+							"components": [
+								{
+									"name": "view",
+									"type": "data_view",
+									"title": "Users",
+									"text_if_empty": "No users yet",
+									"query_name": "admin_users",
+									"query_params": [],
+
+									"fields": [
+										{ "name": "profile.name", "title": "Name"},
+										{ "name": "profile.email", "title": "E-mail" },
+										{ "name": "roles", "title": "Role" }
+									],
+
+									"insert_route": "admin.users.insert",
+
+									"edit_route": "admin.users.edit",
+									"edit_route_params": [
+										{ "name": "userId", "value": "this._id" }
+									],
+
+									"details_route": "admin.users.details",
+									"details_route_params": [
+										{ "name": "userId", "value": "this._id" }
+									]
+								}
+							],
+							"pages": [
+								{
+									"name": "details",
+									"route_params": ["userId"],
+									"components": [
+										{
+											"name": "details_form",
+											"type": "form",
+											"mode": "read_only",
+											"title": "User details",
+											"query_name": "admin_user",
+											"query_params": [],
+											"fields": [
+												{ "name": "profile.name", "title": "Name"},
+												{ "name": "profile.email", "title": "E-mail", "type": "email" },
+												{ "name": "roles", "title": "Role" }
+											],
+											"close_route": "admin.users",
+											"back_route": "admin.users"
+										}
+									]
+								},
+								{
+									"name": "insert",
+									"components": [
+										{
+											"name": "insert_form",
+											"type": "form",
+											"mode": "insert",
+											"title": "Add new user",
+											"submit_route": "admin.users",
+											"cancel_route": "admin.users",
+											"query_name": "users_null",
+											"query_params": [],
+											"fields": [
+												{ "name": "profile.name", "title": "Name", "required": true },
+												{ "name": "profile.email", "title": "E-mail", "type": "email", "required": true },
+												{ "name": "password", "title": "Password", "input": "password", "required": true }
+											]
+										}
+									]
+								},
+								{
+									"name": "edit",
+									"route_params": ["userId"],
+									"components": [
+										{
+											"name": "edit_form",
+											"type": "form",
+											"mode": "update",
+											"title": "Edit user",
+											"submit_route": "admin.users",
+											"cancel_route": "admin.users",
+											"query_name": "admin_user",
+											"query_params": [],
+											"fields": [
+												{ "name": "profile.name", "title": "Name", "required": true },
+												{ "name": "profile.email", "title": "E-mail", "type": "email", "required": true },
+												{
+													"name": "roles",
+													"type": "array",
+													"title": "Role",
+													"input": "radio",
+													"input_items": [
+														{ "value": "user", "title": "User" },
+														{ "value": "admin", "title": "Admin" },
+														{ "value": "blocked", "title": "Blocked" }
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+
+					],
+
+					"components": [
+						{
+							"name": "side_menu",
+							"type": "menu",
+							"class": "nav nav-stacked nav-pills",
+							"items": [
+								{ "title": "Users", "route": "admin.users" }
+							]
+						}
+					]
+				},
+
+
+
+
+
+
 				{
 					"name": "user_settings",
+					"roles": ["guest","user", "admin"],
 					"pages": [
 						{
 							"name": "profile",
@@ -1549,18 +1702,27 @@
 				{
 					"name": "left_menu",
 					"type": "menu",
-					"class": "nav navbar-nav",
+					"class": "nav navbar-nav nav-pills",
 					"dest_selector": "#menu",
 					"items": [
 						{ "title": "Home", "route": "home_private" },
 						{ "title": "Dashboard", "route": "dashboard" },
-						{ "title": "Services", "route": "services" },
-						{ "title": "Years", "route": "years" },
-						{ "title": "Subjects", "route": "subjects" },
-						{ "title": "Teachers", "route": "teachers" },
+						{ "title" : "Core", "items":[
+								{ "title": "Services", "route": "services" },
+								{ "title": "Years", "route": "years" },
+								{ "title": "Subjects", "route": "subjects" },
+							]
+						},
+
+						
+						{ "title": "People", "items": [
+								{ "title": "Parents", "route": "parents" },												
+								{ "title": "Students", "route": "students" },
+								{ "title": "Teachers", "route": "teachers" },
+							]
+						},
+
 						{ "title": "Courses", "route": "courses" },
-						{ "title": "Parents", "route": "parents" },												
-						{ "title": "Students", "route": "students" }
 					]
 				},
 				{
@@ -1569,6 +1731,9 @@
 					"class": "nav navbar-nav navbar-right",
 					"dest_selector": "#menu",
 					"items": [
+
+						{ "title": "Admin", "route": "admin", "icon_class": "fa fa-wrench" },
+
 						{ 
 							"title": "{{userEmail}}",
 							"items": [

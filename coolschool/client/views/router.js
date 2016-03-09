@@ -54,6 +54,11 @@ var privateRoutes = [
 	"students.details.insert",
 	"students.details.edit",
 	"students.edit",
+	"admin",
+	"admin.users",
+	"admin.users.details",
+	"admin.users.insert",
+	"admin.users.edit",
 	"user_settings",
 	"user_settings.profile",
 	"user_settings.change_pass",
@@ -65,7 +70,14 @@ var freeRoutes = [
 ];
 
 var roleMap = [
-	
+	{ route: "admin",	roles: ["admin"] },
+	{ route: "admin.users",	roles: ["admin"] },
+	{ route: "admin.users.details",	roles: ["admin"] },
+	{ route: "admin.users.insert",	roles: ["admin"] },
+	{ route: "admin.users.edit",	roles: ["admin"] },
+	{ route: "user_settings",	roles: ["guest","user","admin"] },
+	{ route: "user_settings.profile",	roles: ["guest","user","admin"] },
+	{ route: "user_settings.change_pass",	roles: ["guest","user","admin"] }
 ];
 
 this.firstGrantedRoute = function(preferredRoute) {
@@ -259,6 +271,11 @@ Router.map(function () {
 	this.route("students.details.insert", {path: "/students/details/:studentId/insert", controller: "StudentsDetailsInsertController"});
 	this.route("students.details.edit", {path: "/students/details/:studentId/edit/:studentId", controller: "StudentsDetailsEditController"});
 	this.route("students.edit", {path: "/students/edit/:studentId", controller: "StudentsEditController"});
+	this.route("admin", {path: "/admin", controller: "AdminController"});
+	this.route("admin.users", {path: "/admin/users", controller: "AdminUsersController"});
+	this.route("admin.users.details", {path: "/admin/users/details/:userId", controller: "AdminUsersDetailsController"});
+	this.route("admin.users.insert", {path: "/admin/users/insert", controller: "AdminUsersInsertController"});
+	this.route("admin.users.edit", {path: "/admin/users/edit/:userId", controller: "AdminUsersEditController"});
 	this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
 	this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
 	this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
