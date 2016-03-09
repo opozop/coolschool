@@ -1,0 +1,157 @@
+<template name="StudentsDetailsEdit">
+	<div class="page-container container" id="content">
+		<div class="row" id="title_row">
+			<div class="col-md-12">
+				<div id="page_menu" class="pull-right">
+				</div>
+			</div>
+		</div>
+		{{> StudentsDetailsEditEditForm}}
+	</div>
+</template>
+
+<template name="StudentsDetailsEditEditForm">
+	<div id="students-details-edit-edit-form" class="">
+		<h2 id="component-title">
+			Edit relative
+		</h2>
+		<form role="form">
+			{{#if errorMessage}}
+			<div class="alert alert-warning">
+				{{errorMessage}}
+			</div>
+			{{/if}}		
+		
+			{{#if infoMessage}}
+			<div class="alert alert-success">
+				{{infoMessage}}
+			</div>
+			{{/if}}
+			<div class="form-group  field-relation-ship">
+				<label for="relationShip">
+					Relationship
+				</label>
+				<div class="input-div">
+					<select class="form-control" name="relationShip" autofocus="autofocus">
+						<option value="Father" {{optionIsSelected relative.relationShip "Father"}}>
+							Father
+						</option>
+						<option value="Mother" {{optionIsSelected relative.relationShip "Mother"}}>
+							Mother
+						</option>
+						<option value="Legal" {{optionIsSelected relative.relationShip "Legal"}}>
+							Legal
+						</option>
+						<option value="Other" {{optionIsSelected relative.relationShip "Other"}}>
+							Other
+						</option>
+					</select>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-parent-id">
+				<label for="parentId">
+					Relative
+				</label>
+				<div class="input-div">
+					<select class="form-control" name="parentId" required="required">
+						{{#each parent_list}}
+						<option value="{{_id}}" {{optionIsSelected ../relative.parentId _id}}>
+							{{sortName}}
+						</option>
+						{{/each}}
+					</select>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-can-pick-up-child">
+				<label for="canPickUpChild">
+					Can pick up child
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="canPickUpChild" {{itemIsChecked relative.canPickUpChild "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="canPickUpChild" {{itemIsChecked relative.canPickUpChild "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-send-notifications">
+				<label for="sendNotifications">
+					Send email messages
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="sendNotifications" {{itemIsChecked relative.sendNotifications "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="sendNotifications" {{itemIsChecked relative.sendNotifications "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-emergency-person">
+				<label for="emergencyPerson">
+					Call in case of emergency
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="emergencyPerson" {{itemIsChecked relative.emergencyPerson "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="emergencyPerson" {{itemIsChecked relative.emergencyPerson "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="submit-div">
+					<button id="form-submit-button" class="btn btn-success" type="submit">
+						<span class="fa fa-check">
+						</span>
+						Save
+					</button>
+					<a href="#" id="form-cancel-button" class="btn btn-default">
+						Cancel
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</template>
+

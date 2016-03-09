@@ -1,0 +1,1584 @@
+{
+	"application": {
+		"title": "Hugues Schools",
+
+		"theme": "bootswatch-cosmo",
+
+		"on_user_created_code": "",
+
+		"roles" : ["admin","student","teacher","staff","manager", "guest"],
+
+		"default_role":"guest",
+
+		"collections": [
+		    {
+		    	"name": "years",
+				"fields": [
+					{ "name": "year", "title": "Year", "required": true, "exportable": true },
+					{ "name": "name", "title": "Description", "input": "textarea", "exportable": true },
+					{ "name": "initialDate", "title": "From", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true },
+					{ "name": "endDate", "title": "To", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true }
+				],
+				"owner_field": "createdBy"
+		    },
+
+		    {
+		    	"name": "events",
+				"fields": [
+					{ "name": "name", "title": "Event name", "required": true, "exportable": true },
+					{ "name": "description", "title": "Description", "input": "textarea", "exportable": true },
+
+
+					{ "name": "public", "title": "Show in Public board", "input":"radio",  "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "internal", "title": "Show in Internal board", "input":"radio",  "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "teachers", "title": "Show in Teachers Board", "input":"radio",  "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+                    { "name": "staff", "title": "Show in Staff board", "input":"radio",  "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+                    { "name": "students", "title": "Show in Students&Parents board", "input":"radio",  "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+
+
+					{ "name": "initialDate", "title": "From", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true },
+					{ "name": "endDate", "title": "To", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true },
+					{ "name": "notes", "title": "Notes", "input": "textarea", "exportable": true }
+				],
+				"owner_field": "createdBy"
+		    },
+
+			{
+				"name": "students",
+				"fields": [
+					{ "name": "name", "title": "Name", "required": true, "exportable": true },
+					{ "name": "fatherLastName", "title": "Father's", "exportable": true },
+					{ "name": "motherLastName", "title": "Mother's", "exportable": true },
+					{ "name": "preferredName", "title": "Preferred", "input": "textarea", "exportable": true, "show_in_dataview": true },
+					{ "name": "sortName", "title": "Sort Name", "exportable": true, "show_in_dataview": true },
+					{ "name": "birthDate", "title": "Brith Date", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true, "show_in_dataview": true },
+                    { "name": "gender", "title": "Gender", "input":"radio", "input_items": ["Female","Male"], "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "phoneNumber", "title": "Phone Number", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true }
+				],
+				"owner_field": "createdBy",
+
+				"roles_allowed_to_read": [],
+				"roles_allowed_to_update": [],
+				"roles_allowed_to_delete": []
+			},
+
+
+
+		    {
+		    	"name": "course_students",
+				"fields": [
+					{
+						"name": "studentId",
+						"title": "Student",
+						"required": true,
+						"input": "select",
+						"lookup_query_name": "student_list",
+						"lookup_field": "sortName",
+						"lookup_key": "_id",
+						"show_in_dataview": false,
+						"show_in_read_only_form": false,
+						"exportable": true,
+
+						"join_collection": "students",
+						"join_fields": ["sortName"],
+						"join_container": "student"
+					},
+
+					{
+						"name": "student.sortName",
+						"title": "Student Name",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+
+				],
+				"owner_field": "createdBy"
+		    },
+
+
+
+			{
+				"name": "relatives",
+				"fields" : [
+					{ "name": "relationShip",
+					  "title": "Relationship", 
+					  "input":"select", 
+					  "input_items": ["Father","Mother","Legal","Other"], 
+					  "show_in_insert_form": true, 
+					  "show_in_update_form": true, 
+					  "exportable": true 
+				  	},
+
+				    {
+						"name": "parentId",
+						"title": "Relative",
+						"required": true,
+						"input": "select",
+						"lookup_query_name": "parent_list",
+						"lookup_field": "sortName",
+						"lookup_key": "_id",
+						"show_in_dataview": false,
+						"show_in_read_only_form": false,
+						"exportable": false,
+
+						"join_collection": "parents",
+						"join_fields": ["sortName"],
+						"join_container": "relative"
+					},
+
+					{
+						"name": "relative.sortName",
+						"title": "Relative Name",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+
+					{ "name": "canPickUpChild", "title": "Can pick up child", "input":"radio",  "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "sendNotifications", "title": "Send email messages", "input":"radio", "input_items": ["Yes","No"], "default" : "Yes","show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "emergencyPerson", "title": "Call in case of emergency", "input":"radio", "input_items": ["Yes","No"], "default" : "Yes", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+
+				],
+
+				"owner_field": "createdBy",				
+
+				"show_in_insert_form": true,
+				"show_in_update_form": true,
+				"show_in_dataview": false,
+				"exportable": true
+
+			},
+
+
+			{
+				"name": "teachers",
+				"fields": [
+				    { "name": "docId", "title": "Id. Number", "required": true, "exportable": true },
+					{ "name": "name", "title": "Name", "required": true, "exportable": true },
+					{ "name": "fatherLastName", "title": "Father's", "default": "-", "exportable": true },
+					{ "name": "motherLastName", "title": "Mother's", "exportable": true },
+					{ "name": "marriedName", "title": "Married", "exportable": true },
+					{ "name": "preferredName", "title": "Preferred", "input": "textarea", "exportable": true, "show_in_dataview": true },
+					{ "name": "sortName", "title": "Sort Name", "exportable": true, "show_in_dataview": true },
+					{ "name": "birthDate", "title": "Brith Date", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true, "show_in_dataview": true },
+					{ "name": "gender", "title": "Gender", "input":"radio", "input_items": ["Female","Male"], "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "phoneNumber", "title": "Phone Number", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "emailAddress", "title": "E-mail address", "type": "email", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "Experience", "title": "Experience", "input": "textarea", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true }
+				],
+				"owner_field": "createdBy",
+
+				"roles_allowed_to_read": [],
+				"roles_allowed_to_update": [],
+				"roles_allowed_to_delete": []
+			},
+
+			{
+				"name": "parents",
+				"fields": [
+					{ "name": "name", "title": "Name", "required": true, "exportable": true },
+					{ "name": "fatherLastName", "title": "Father's", "default": "-", "exportable": true },
+					{ "name": "motherLastName", "title": "Mother's", "exportable": true },
+					{ "name": "sortName", "title": "Sort Name", "exportable": true, "show_in_dataview": true },
+					{ "name": "birthDate", "title": "Brith Date", "type": "date", "format": "MM-DD-YYYY", "input": "datepicker", "exportable": true, "show_in_dataview": true },
+					{ "name": "gender", "title": "Gender", "input":"radio", "input_items": ["Female","Male"], "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "phoneNumber", "title": "Phone Number", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "emailAddress", "title": "E-mail address", "type": "email", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true },
+					{ "name": "notes", "title": "Notes", "input": "textarea", "show_in_insert_form": true, "show_in_update_form": true, "exportable": true }
+				],
+				"owner_field": "createdBy",
+
+				"roles_allowed_to_read": [],
+				"roles_allowed_to_update": [],
+				"roles_allowed_to_delete": []
+			},
+
+
+			{
+		    	"name": "services",
+				"fields": [
+					{ "name": "code", "title": "Code", "required": true, "exportable": true },
+					{ "name": "name", "title": "Name", "required": true, "exportable": true },
+					{ "name": "description", "title": "Description", "input": "textarea", "exportable": true }
+				],
+				"owner_field": "createdBy"
+		    },
+
+			{
+		    	"name": "subjects",
+				"fields": [
+					{ "name": "code", "title": "Code", "required": true, "exportable": true },
+					{ "name": "name", "title": "Name", "required": true, "exportable": true },
+					{ "name": "description", "title": "Description", "input": "textarea", "exportable": true }
+				],
+				"owner_field": "createdBy"
+		    },
+
+			{
+				"name": "courses",
+				"fields": [
+
+					{
+						"name": "yearId",
+						"title": "Year",
+						"required": true,
+						"input": "select",
+						"lookup_query_name": "year_list",
+						"lookup_field": "year",
+						"lookup_key": "_id",
+						"show_in_dataview": false,
+						"show_in_read_only_form": false,
+						"exportable": true,
+
+						"join_collection": "years",
+						"join_fields": ["year"],
+						"join_container": "year"
+					},
+
+					{
+						"name": "year.year",
+						"title": "Year",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+
+					{
+						"name": "serviceId",
+						"title": "Service",
+						"required": true,
+						"input": "select",
+						"lookup_query_name": "service_list",
+						"lookup_field": "name",
+						"lookup_key": "_id",
+						"show_in_dataview": false,
+						"show_in_read_only_form": false,
+						"exportable": true,
+
+						"join_collection": "services",
+						"join_fields": ["name","code"],
+						"join_container": "service"
+					},
+					{
+						"name": "service.name",
+						"title": "Service name",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+					{
+						"name": "service.code",
+						"title": "Service code",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+
+
+					{
+						"name": "subjectId",
+						"title": "Subject",
+						"required": true,
+						"input": "select",
+						"lookup_query_name": "subject_list",
+						"lookup_field": "name",
+						"lookup_key": "_id",
+						"show_in_dataview": false,
+						"show_in_read_only_form": false,
+						"exportable": true,
+
+						"join_collection": "subjects",
+						"join_fields": ["name","code"],
+						"join_container": "subject"
+					},
+					{
+						"name": "subject.name",
+						"title": "Service name",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+					{
+						"name": "subject.code",
+						"title": "Service code",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+
+
+					{ "name": "code", "title": "Code", "required": true, "exportable": true },
+					{ "name": "description", "title": "Description", "type": "textarea", "required": false, "exportable": true },
+
+					{
+						"name": "teacherId",
+						"title": "Teacher",
+						"required": true,
+						"input": "select",
+						"lookup_query_name": "teacher_list",
+						"lookup_field": "sortName",
+						"lookup_key": "_id",
+						"show_in_dataview": false,
+						"show_in_read_only_form": false,
+						"exportable": true,
+
+						"join_collection": "teachers",
+						"join_fields": ["sortName"],
+						"join_container": "teacher"
+					},
+
+					{
+						"name": "teacher.sortName",
+						"title": "Teacher Name",
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"exportable": true
+					},
+
+
+				],
+
+				"owner_field": "createdBy",
+
+				"roles_allowed_to_read": [],
+				"roles_allowed_to_update": [],
+				"roles_allowed_to_delete": [],
+
+			},
+
+		],
+
+		"queries": [
+			{
+				"name": "year_list",
+				"collection": "years",
+				"filter": {},
+				"options": {
+					"transform": "function(doc) {  return doc; }",
+					"sort": ["year"]
+				},
+			},
+			{
+				"name": "years_empty",
+				"collection": "years",
+				"filter": {"_id": null},
+				"find_one": true
+			},
+			{
+				"name": "year_details",
+				"collection": "years",
+				"find_one": true,
+				"filter": { "_id": ":yearId" },
+				"options": {
+					"transform": "function(doc) {  return doc; }",
+				},
+			},
+			{
+				"name": "teacher_list",
+				"collection": "teachers",
+				"filter": {},
+				"options": {
+					"sort": [[ "fatherLastName", "asc"],["name","asc"]]
+				},
+			},
+			{
+				"name": "teachers_empty",
+				"collection": "teachers",
+				"filter": { "_id": null },
+				"options": {},
+				"find_one": true
+			},
+
+			{
+				"name": "teacher_details",
+				"collection": "teachers",
+				"filter": { "_id": ":teacherId" },
+				"find_one": true,
+			},
+
+			{
+				"name": "parent_list",
+				"collection": "parents",
+				"filter": {},
+				"options": {
+					"sort": [[ "fatherLastName", "asc"],["name","asc"]]
+				}
+			},
+			{
+				"name": "parents_empty",
+				"collection": "parents",
+				"filter": { "_id": null },
+				"options": {},
+				"find_one": true
+			},
+
+			{
+				"name": "parent_details",
+				"collection": "parents",
+				"filter": { "_id": ":parentId" },
+				"find_one": true
+			},
+
+
+			{
+				"name": "relatives",
+				"collection": "relatives",
+				"filter": { "studentId": ":studentId" }
+			},			
+			{
+				"name": "relatives_empty",
+				"collection": "relatives",
+				"filter": { "_id": null },
+				"find_one": true
+			},
+			{
+				"name": "relative",
+				"collection": "relatives",
+				"filter": { "_id": ":realtiveId" },
+				"find_one": true
+			},
+
+
+
+
+			{
+				"name": "yearEvents",
+				"collection": "events",
+				"filter": { "yearId": ":yearId" }
+			},			
+			{
+				"name": "yearEvent_empty",
+				"collection": "events",
+				"filter": { "_id": null },
+				"find_one": true
+			},
+			{
+				"name": "yearEvent",
+				"collection": "events",
+				"filter": { "_id": ":eventId" },
+				"find_one": true
+			},
+
+
+			{
+				"name": "course_students",
+				"collection": "course_students",
+				"filter": { "courseId": ":courseId" }
+			},			
+			{
+				"name": "course_students_empty",
+				"collection": "course_students",
+				"filter": { "_id": null },
+				"find_one": true
+			},
+			{
+				"name": "course_student",
+				"collection": "course_students",
+				"filter": { "_id": ":course_studentId" },
+				"find_one": true
+			},
+
+
+
+			{
+				"name": "student_list",
+				"collection": "students",
+				"filter": {},
+				"options": {
+					"sort": [[ "fatherLastName", "asc"],["name","asc"]]
+				}
+			},
+
+
+			{
+				"name": "students_empty",
+				"collection": "students",
+				"filter": { "_id": null },
+				"options": {},
+				"find_one": true
+			},
+
+			{
+				"name": "student_details",
+				"collection": "students",
+				"filter": { "_id": ":studentId" },
+				"find_one": true,
+				"related_queries": [
+					{ "name": "parent_list" }]
+			},
+
+
+
+			{
+				"name": "course_list",
+				"collection": "courses",
+				"filter": {},
+				"options": {
+					"sort": [[ "code", "asc"]]
+				}
+			},
+
+			{
+				"name": "courses_empty",
+				"collection": "courses",
+				"filter": { "_id": null },
+				"options": {},
+				"find_one": true
+			},
+
+			{
+				"name": "course_details",
+				"collection": "courses",
+				"filter": { "_id": ":courseId" },
+				"find_one": true,
+				"related_queries": [
+					{ "name": "year_list" },
+					{ "name": "teacher_list" },
+					{ "name": "service_list" },
+					{ "name": "subject_list" }
+					]
+			},
+
+
+
+
+			{
+				"name": "service_list",
+				"collection": "services",
+				"filter": {},
+				"options": {
+					"sort": [[ "code", "asc"]]
+				}
+			},
+
+			{
+				"name": "services_empty",
+				"collection": "services",
+				"filter": { "_id": null },
+				"options": {},
+				"find_one": true
+			},
+
+			{
+				"name": "service_details",
+				"collection": "services",
+				"filter": { "_id": ":serviceId" },
+				"find_one": true,
+				"related_queries": [
+					]
+			},
+
+
+
+
+
+			{
+				"name": "subject_list",
+				"collection": "subjects",
+				"filter": {},
+				"options": {
+					"sort": [[ "code", "asc"]]
+				}
+			},
+
+			{
+				"name": "subjects_empty",
+				"collection": "subjects",
+				"filter": { "_id": null },
+				"options": {},
+				"find_one": true
+			},
+
+			{
+				"name": "subject_details",
+				"collection": "subjects",
+				"filter": { "_id": ":subjectId" },
+				"find_one": true,
+				"related_queries": [
+				    { "name": "service_list" }
+					]
+			},
+
+
+
+			{
+				"name": "current_user_data",
+				"collection": "users",
+				"filter": { "_id": "Meteor.userId()" },
+				"find_one": true
+			}
+		],
+
+		"public_zone": {
+			"pages": [
+				{ 
+					"name": "home_public", 
+					"title": "", 
+					"components": [
+						{
+							"name": "home_jumbotron",
+							"title": "Hughes Schools",
+							"type": "jumbotron",
+							"text": "<b>The school of performing arts.</b> ",
+							"button_title": "Continue &raquo;",
+							"button_route": "login"
+						}
+					]
+				},
+				{ "name": "login", "template": "login" },
+				{ "name": "register", "template": "register" },
+				{ "name": "forgot_password", "template": "forgot_password" },
+				{ "name": "reset_password", "template": "reset_password", "route_params": ["resetPasswordToken"] }
+			],
+
+			"components": [
+				{
+					"name": "left_menu",
+					"type": "menu",
+					"class": "nav navbar-nav",
+					"dest_selector": "#menu",
+					"items": [
+						{ "title": "Home", "route": "home_public" }
+					]
+				},
+
+				{
+					"name": "right_menu",
+					"type": "menu",
+					"class": "nav navbar-nav navbar-right",
+					"dest_selector": "#menu",
+					"items": [
+						{ "title": "Register", "route": "register" },
+						{ "title": "Login", "route": "login" }
+					]
+				}
+			]
+		},
+
+		"private_zone": {
+			"pages": [
+				{
+					"name": "home_private",
+					"title": "Welcome {{userFullName}}!",
+					"text": "Hughes school rocks!",
+				},
+
+				{
+					"name": "dashboard",
+					"title": "Welcome {{userFullName}}!",
+					"text": "Dashboard under construction...",
+
+					"components": [
+
+						{
+							"name": "studentsView",
+							"type": "data_view",
+							"title": "Students",
+
+							"views" : ["gallery"],
+							"text_if_empty": "No students :(",
+							"query_name": "student_list",
+							"insert_route": "students.insert",
+							"edit_route": "students.edit",
+							"edit_route_params": [
+								{ "name": "studentId", "value": "this._id" }
+							],
+							"details_route": "students.details",
+							"details_route_params": [
+								{ "name": "studentId", "value": "this._id" }
+							]
+						},
+
+						{
+							"name": "coursesView",
+							"type": "data_view",
+							"title": "Courses",
+							"text_if_empty": "No courses :(",
+							"query_name": "course_list",
+							"insert_route": "courses.insert",
+							"edit_route": "courses.edit",
+							"edit_route_params": [
+								{ "name": "courseId", "value": "this._id" }
+							],
+							"details_route": "courses.details",
+							"details_route_params": [
+								{ "name": "courseId", "value": "this._id" }
+							]
+						},
+
+					    {
+							"name": "yearView",
+							"type": "data_view",
+							"title": "Years",
+							"text_if_empty": "No years :(",
+							"query_name": "year_list",
+							"insert_route": "years.insert",
+							"edit_route": "years.edit",
+							"edit_route_params": [
+								{ "name": "yearId", "value": "this._id" }
+							],
+							"details_route": "years.details",
+							"details_route_params": [
+								{ "name": "yearId", "value": "this._id" }
+							]
+						},
+
+						{
+							"name": "serviceView",
+							"type": "data_view",
+							"title": "Services",
+							"text_if_empty": "No services :(",
+							"query_name": "service_list",
+							"insert_route": "services.insert",
+							"edit_route": "services.edit",
+							"edit_route_params": [
+								{ "name": "serviceId", "value": "this._id" }
+							],
+							"details_route": "services.details",
+							"details_route_params": [
+								{ "name": "serviceId", "value": "this._id" }
+							]
+						},
+						{
+							"name": "subjectsView",
+							"type": "data_view",
+							"title": "Subjects",
+							"text_if_empty": "No subjects :(",
+							"query_name": "subject_list",
+							"insert_route": "subjects.insert",
+							"edit_route": "subjects.edit",
+							"edit_route_params": [
+								{ "name": "subjectId", "value": "this._id" }
+							],
+							"details_route": "subjects.details",
+							"details_route_params": [
+								{ "name": "subjectId", "value": "this._id" }
+							]
+						}
+					]
+				},
+
+				{
+					"name": "Years",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Years",
+							"text_if_empty": "No years :(",
+							"query_name": "year_list",
+							"insert_route": "years.insert",
+							"edit_route": "years.edit",
+							"edit_route_params": [
+								{ "name": "yearId", "value": "this._id" }
+							],
+							"details_route": "years.details",
+							"details_route_params": [
+								{ "name": "yearId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New year",
+									"query_name": "years_empty",
+									"submit_route": "years",
+									"cancel_route": "years"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"route_params": ["yearId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Details",
+									"query_name": "year_details",
+									"close_route": "years",
+									"back_route": "years"
+								}
+							],
+
+
+							"force_yield_subpages": true,
+							"pages": [
+
+								{
+									"name": "Calendar",
+									"components": [
+										{
+											"name": "view",
+											"type": "data_view",
+											"text_if_empty": "No events",
+											"query_name": "yearEvents",
+											"insert_button_title": "Add event",
+											"insert_route": "years.details.insert",
+											"insert_route_params": [
+												{ "name": "yearId", "value": "this.params.yearId" }
+											],
+											"edit_route": "years.details.edit",
+											"edit_route_params": [
+												{ "name": "yearId", "value": "UI._parentData(1).params.yearId" },
+												{ "name": "eventId", "value": "this._id" }
+											]
+										}
+									]
+								},
+
+								{
+									"name": "insert",
+									"components": [										
+										{
+											"name": "insert_form",
+											"type": "form",
+											"mode": "insert",
+											
+											"title": "Add event",
+											"query_name": "yearEvent_empty",
+
+											"hidden_fields": [
+												{ "name": "yearId", "value": "this.params.yearId" }
+											],
+
+											"submit_route": "years.details",
+											"submit_route_params": [
+												{ "name": "yearId", "value": "this.params.yearId"}
+											],
+											"cancel_route": "years.details",
+											"cancel_route_params": [
+												{ "name": "yearId", "value": "this.params.yearId"}
+											]
+										}
+									]
+								},
+
+								{
+									"name": "edit",
+									"route_params": ["yearId"],
+									"components": [
+										{
+											"name": "edit_form",
+											"type": "form",
+											"mode": "update",
+
+											"title": "Edit event",
+											"query_name": "yearEvent",
+											"submit_route": "years.details",
+											"submit_route_params": [
+												{ "name": "yearId", "value": "this.params.yearId"}
+											],
+											"cancel_route": "years.details",
+											"cancel_route_params": [
+												{ "name": "yearId", "value": "this.params.yearId"}
+											]
+										}
+									]
+								}
+							]
+						},
+
+
+						{
+							"name": "edit",
+							"route_params": ["yearId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit year",
+									"submit_route": "years",
+									"cancel_route": "years",
+									"query_name": "year_details"
+								}
+							]
+						}
+					]
+				},
+
+
+
+				{
+					"name": "Services",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Services",
+							"text_if_empty": "No services :(",
+							"query_name": "service_list",
+							"insert_route": "services.insert",
+							"edit_route": "services.edit",
+							"edit_route_params": [
+								{ "name": "serviceId", "value": "this._id" }
+							],
+							"details_route": "services.details",
+							"details_route_params": [
+								{ "name": "serviceId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New service",
+									"query_name": "services_empty",
+									"submit_route": "services",
+									"cancel_route": "services"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"route_params": ["serviceId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Details",
+									"query_name": "service_details",
+									"close_route": "services",
+									"back_route": "services"
+								}
+							]
+						},
+
+						{
+							"name": "edit",
+							"route_params": ["serviceId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit service",
+									"submit_route": "services",
+									"cancel_route": "services",
+									"query_name": "service_details"
+								}
+							]
+						}
+					]
+				},
+
+
+
+				{
+					"name": "Subjects",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Subjects",
+							"text_if_empty": "No subjects :(",
+							"query_name": "subject_list",
+							"insert_route": "subjects.insert",
+							"edit_route": "subjects.edit",
+							"edit_route_params": [
+								{ "name": "subjectId", "value": "this._id" }
+							],
+							"details_route": "subjects.details",
+							"details_route_params": [
+								{ "name": "subjectId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New subject",
+									"query_name": "subjects_empty",
+									"submit_route": "subjects",
+									"cancel_route": "subjects"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"route_params": ["subjectId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Details",
+									"query_name": "subject_details",
+									"close_route": "subjects",
+									"back_route": "subjects"
+								}
+							]
+						},
+
+						{
+							"name": "edit",
+							"route_params": ["subjectId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit subject",
+									"submit_route": "subjects",
+									"cancel_route": "subjects",
+									"query_name": "subject_details"
+								}
+							]
+						}
+					]
+				},
+
+
+
+				{
+					"name": "Courses",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Courses",
+							"text_if_empty": "No courses :(",
+							"query_name": "course_list",
+							"insert_route": "courses.insert",
+							"edit_route": "courses.edit",
+							"edit_route_params": [
+								{ "name": "courseId", "value": "this._id" }
+							],
+							"details_route": "courses.details",
+							"details_route_params": [
+								{ "name": "courseId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New Course",
+									"query_name": "courses_empty",
+									"submit_route": "courses",
+									"cancel_route": "courses"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"route_params": ["courseId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Details",
+									"query_name": "course_details",
+									"close_route": "courses",
+									"back_route": "courses"
+								}
+							],
+
+							"force_yield_subpages": true,
+							"pages": [
+
+								{
+									"name": "signedUpStudents",
+									"components": [
+										{
+											"name": "view",
+											"type": "data_view",
+											"text_if_empty": "No students",
+											"query_name": "course_students",
+											"insert_button_title": "Add Student",
+											"insert_route": "courses.details.insert",
+											"insert_route_params": [
+												{ "name": "courseId", "value": "this.params.courseId" }
+											],
+											"edit_route": "courses.details.edit",
+											"edit_route_params": [
+												{ "name": "courseId", "value": "UI._parentData(1).params.courseId" },
+												{ "name": "course_studentId", "value": "this._id" }
+											]
+										}
+									]
+								},
+
+								{
+									"name": "insert",
+									"components": [										
+										{
+											"name": "insert_form",
+											"type": "form",
+											"mode": "insert",
+											"title": "Add Student",
+											"query_name": "course_students_empty",
+
+											"hidden_fields": [
+												{ "name": "courseId", "value": "this.params.courseId" }
+											],
+
+											"submit_route": "courses.details",
+											"submit_route_params": [
+												{ "name": "courseId", "value": "this.params.courseId"}
+											],
+											"cancel_route": "courses.details",
+											"cancel_route_params": [
+												{ "name": "coursetId", "value": "this.params.courseId"}
+											]
+										}
+									]
+								},
+
+								{
+									"name": "edit",
+									"route_params": ["courseId"],
+									"components": [
+										{
+											"name": "edit_form",
+											"type": "form",
+											"mode": "update",
+											"title": "Edit Student",
+											"query_name": "course_student",
+											"submit_route": "courses.details",
+											"submit_route_params": [
+												{ "name": "coursesId", "value": "this.params.coursesId"}
+											],
+											"cancel_route": "courses.details",
+											"cancel_route_params": [
+												{ "name": "coursesId", "value": "this.params.coursesId"}
+											]
+										}
+									]
+								}
+							]
+						},
+
+
+						{
+							"name": "edit",
+							"route_params": ["courseId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit Course",
+									"submit_route": "courses",
+									"cancel_route": "courses",
+									"query_name": "course_details"
+								}
+							]
+						}
+					]
+				},
+
+
+
+
+
+
+
+				{
+					"name": "Teachers",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Teachers",
+							"text_if_empty": "No teachers :(",
+							"query_name": "teacher_list",
+							"insert_route": "teachers.insert",
+							"edit_route": "teachers.edit",
+							"edit_route_params": [
+								{ "name": "teacherId", "value": "this._id" }
+							],
+							"details_route": "teachers.details",
+							"details_route_params": [
+								{ "name": "teacherId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New Teacher",
+									"query_name": "teachers_empty",
+									"submit_route": "teachers",
+									"cancel_route": "teachers"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"route_params": ["teacherId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Details",
+									"query_name": "teacher_details",
+									"close_route": "teachers",
+									"back_route": "teachers"
+								}
+							]
+						},
+
+						{
+							"name": "edit",
+							"route_params": ["teacherId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit teacher",
+									"submit_route": "teachers",
+									"cancel_route": "teachers",
+									"query_name": "teacher_details"
+								}
+							]
+						}
+					]
+				},
+
+
+
+				{
+					"name": "Parents",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Parents",
+							"text_if_empty": "No parents :(",
+							"query_name": "parent_list",
+							"insert_route": "parents.insert",
+							"edit_route": "parents.edit",
+							"edit_route_params": [
+								{ "name": "parentId", "value": "this._id" }
+							],
+							"details_route": "parents.details",
+							"details_route_params": [
+								{ "name": "parentId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New Parent",
+									"query_name": "parents_empty",
+									"submit_route": "parents",
+									"cancel_route": "parents"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"route_params": ["parentId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Details",
+									"query_name": "parent_details",
+									"close_route": "parents",
+									"back_route": "parents"
+								}
+							]
+						},
+
+						{
+							"name": "edit",
+							"route_params": ["parentId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit parent",
+									"submit_route": "parents",
+									"cancel_route": "parents",
+									"query_name": "parent_details"
+								}
+							]
+						}
+					]
+				},
+
+
+				{
+					"name": "students",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "Students",
+
+							"views" : ["list", "gallery"],
+							"text_if_empty": "No students :(",
+							"query_name": "student_list",
+							"insert_route": "students.insert",
+							"edit_route": "students.edit",
+							"edit_route_params": [
+								{ "name": "studentId", "value": "this._id" }
+							],
+							"details_route": "students.details",
+							"details_route_params": [
+								{ "name": "studentId", "value": "this._id" }
+							]
+						}
+					],
+
+					"pages": [
+						{
+							"name": "insert",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"mode": "insert",
+									"title": "New student",
+
+									"query_name": "students_empty",
+
+
+									"submit_route": "students.details",
+									"submit_route_params": [
+										{ "name": "studentId", "value": "newId"}
+									],
+									"cancel_route": "students"
+								}
+							]
+						},
+						{
+							"name": "details",
+							"template": "page_subcontent_tabnav",
+							"route_params": ["studentId"],
+							"components": [
+								{
+									"name": "details_form",
+									"type": "form",
+									"mode": "read_only",
+									"title": "Student: {{student_details.sortName}}",
+									"layout": "horizontal",
+									"query_name": "student_details",
+									"back_route": "students"
+								}
+
+							],
+
+							"force_yield_subpages": true,
+							"pages": [
+
+								{
+									"name": "relatives",
+									"components": [
+										{
+											"name": "view",
+											"type": "data_view",
+											"text_if_empty": "No relatives",
+											"query_name": "relatives",
+											"insert_button_title": "Add relative",
+											"insert_route": "students.details.insert",
+											"insert_route_params": [
+												{ "name": "studentId", "value": "this.params.studentId" }
+											],
+											"edit_route": "students.details.edit",
+											"edit_route_params": [
+												{ "name": "studentId", "value": "UI._parentData(1).params.studentId" },
+												{ "name": "relativeId", "value": "this._id" }
+											]
+										}
+									]
+								},
+
+								{
+									"name": "insert",
+									"components": [										
+										{
+											"name": "insert_form",
+											"type": "form",
+											"mode": "insert",
+											"title": "Add relative",
+											"query_name": "relatives_empty",
+
+											"hidden_fields": [
+												{ "name": "studentId", "value": "this.params.studentId" }
+											],
+
+											"submit_route": "students.details",
+											"submit_route_params": [
+												{ "name": "studentId", "value": "this.params.studentId"}
+											],
+											"cancel_route": "students.details",
+											"cancel_route_params": [
+												{ "name": "studentId", "value": "this.params.studentId"}
+											]
+										}
+									]
+								},
+
+								{
+									"name": "edit",
+									"route_params": ["studentId"],
+									"components": [
+										{
+											"name": "edit_form",
+											"type": "form",
+											"mode": "update",
+											"title": "Edit relative",
+											"query_name": "relative",
+											"submit_route": "students.details",
+											"submit_route_params": [
+												{ "name": "studentsId", "value": "this.params.studentsId"}
+											],
+											"cancel_route": "students.details",
+											"cancel_route_params": [
+												{ "name": "studentsId", "value": "this.params.studentsId"}
+											]
+										}
+									]
+								}
+							]
+						},
+
+						{
+							"name": "edit",
+							"route_params": ["studentId"],
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit student",
+									"submit_route": "students",
+									"cancel_route": "students",
+									"query_name": "student_details"
+								}
+							]
+						}
+					]
+				},
+
+				{
+					"name": "user_settings",
+					"pages": [
+						{
+							"name": "profile",
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"mode": "update",
+									"title": "Edit your profile",
+									"submit_route": "user_settings.profile",
+									"query_name": "current_user_data",
+									"fields": [
+										{ "name": "profile.name", "title": "Name", "required": true },
+										{ "name": "profile.email", "title": "E-mail", "type": "email", "required": true },
+										{ "name": "profile.facebook", "title": "Facebook URL" },
+										{ "name": "profile.google", "title": "Google+ URL" },
+										{ "name": "profile.twitter", "title": "Twitter ID" },
+										{ "name": "profile.website", "title": "Website URL" }
+									]
+								}
+							]
+						},
+
+						{ "name": "change_pass", "template": "change_pass" }
+					],
+
+					"components": [
+						{
+							"name": "side_menu",
+							"type": "menu",
+							"class": "nav nav-stacked nav-pills",
+							"items": [
+								{ "title": "Profile", "route": "user_settings.profile" },
+								{ "title": "Change password", "route": "user_settings.change_pass" }
+							]
+						}
+					]
+				},
+
+				{ "name": "logout", "template": "logout" }
+			],
+
+			"components": [
+				{
+					"name": "left_menu",
+					"type": "menu",
+					"class": "nav navbar-nav",
+					"dest_selector": "#menu",
+					"items": [
+						{ "title": "Home", "route": "home_private" },
+						{ "title": "Dashboard", "route": "dashboard" },
+						{ "title": "Services", "route": "services" },
+						{ "title": "Years", "route": "years" },
+						{ "title": "Subjects", "route": "subjects" },
+						{ "title": "Teachers", "route": "teachers" },
+						{ "title": "Courses", "route": "courses" },
+						{ "title": "Parents", "route": "parents" },												
+						{ "title": "Students", "route": "students" }
+					]
+				},
+				{
+					"name": "right_menu",
+					"type": "menu",
+					"class": "nav navbar-nav navbar-right",
+					"dest_selector": "#menu",
+					"items": [
+						{ 
+							"title": "{{userEmail}}",
+							"items": [
+								{ "title": "Settings", "route": "user_settings" },
+								{ "title": "Logout", "route": "logout" }
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

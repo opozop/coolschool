@@ -1,0 +1,134 @@
+<template name="StudentsDetails">
+	<div class="page-container container">
+		<div class="row">
+			<div class="col-md-12" id="content">
+				<div class="row" id="title_row">
+					<div class="col-md-12">
+						<div id="page_menu" class="pull-right">
+						</div>
+					</div>
+				</div>
+				{{> StudentsDetailsDetailsForm}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" id="menu">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" id="subcontent">
+				{{> yield region='StudentsDetailsSubcontent'}}
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="StudentsDetailsDetailsForm">
+	<div id="students-details-details-form" class="">
+		<h2 id="component-title">
+			<a href="#" id="form-back-button" class="btn btn-default" title="back">
+				<span class="fa fa-chevron-left">
+				</span>
+			</a>
+			Student: {{student_details.sortName}}
+		</h2>
+		<form role="form" class="form-horizontal">
+			{{#if errorMessage}}
+			<div class="alert alert-warning">
+				{{errorMessage}}
+			</div>
+			{{/if}}		
+		
+			{{#if infoMessage}}
+			<div class="alert alert-success">
+				{{infoMessage}}
+			</div>
+			{{/if}}
+			<div class="form-group  field-name">
+				<label for="name" class="col-sm-3 control-label">
+					Name
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.name}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-father-last-name">
+				<label for="fatherLastName" class="col-sm-3 control-label">
+					Father's
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.fatherLastName}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-mother-last-name">
+				<label for="motherLastName" class="col-sm-3 control-label">
+					Mother's
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.motherLastName}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-preferred-name">
+				<label for="preferredName" class="col-sm-3 control-label">
+					Preferred
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.preferredName}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-sort-name">
+				<label for="sortName" class="col-sm-3 control-label">
+					Sort Name
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.sortName}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-birth-date">
+				<label for="birthDate" class="col-sm-3 control-label">
+					Brith Date
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{formatDate student_details.birthDate 'MM-DD-YYYY'}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-gender">
+				<label for="gender" class="col-sm-3 control-label">
+					Gender
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.gender}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  field-phone-number">
+				<label for="phoneNumber" class="col-sm-3 control-label">
+					Phone Number
+				</label>
+				<div class="input-div col-sm-9">
+					<p class="form-control-static">
+						{{student_details.phoneNumber}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="submit-div col-sm-9 col-sm-offset-3">
+				</div>
+			</div>
+		</form>
+	</div>
+</template>
+

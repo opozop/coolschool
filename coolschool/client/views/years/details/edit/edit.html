@@ -1,0 +1,232 @@
+<template name="YearsDetailsEdit">
+	<div class="page-container container" id="content">
+		<div class="row" id="title_row">
+			<div class="col-md-12">
+				<div id="page_menu" class="pull-right">
+				</div>
+			</div>
+		</div>
+		{{> YearsDetailsEditEditForm}}
+	</div>
+</template>
+
+<template name="YearsDetailsEditEditForm">
+	<div id="years-details-edit-edit-form" class="">
+		<h2 id="component-title">
+			Edit event
+		</h2>
+		<form role="form">
+			{{#if errorMessage}}
+			<div class="alert alert-warning">
+				{{errorMessage}}
+			</div>
+			{{/if}}		
+		
+			{{#if infoMessage}}
+			<div class="alert alert-success">
+				{{infoMessage}}
+			</div>
+			{{/if}}
+			<div class="form-group  field-name">
+				<label for="name">
+					Event name
+				</label>
+				<div class="input-div">
+					<input type="text" name="name" value="{{year_event.name}}" class="form-control" autofocus="autofocus" required="required">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-description">
+				<label for="description">
+					Description
+				</label>
+				<div class="input-div">
+					<textarea class="form-control" name="description">{{year_event.description}}</textarea>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-public">
+				<label for="public">
+					Show in Public board
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="public" {{itemIsChecked year_event.public "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="public" {{itemIsChecked year_event.public "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-internal">
+				<label for="internal">
+					Show in Internal board
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="internal" {{itemIsChecked year_event.internal "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="internal" {{itemIsChecked year_event.internal "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-teachers">
+				<label for="teachers">
+					Show in Teachers Board
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="teachers" {{itemIsChecked year_event.teachers "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="teachers" {{itemIsChecked year_event.teachers "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-staff">
+				<label for="staff">
+					Show in Staff board
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="staff" {{itemIsChecked year_event.staff "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="staff" {{itemIsChecked year_event.staff "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-students">
+				<label for="students">
+					Show in Students&Parents board
+				</label>
+				<div class="input-div">
+					<div class="radio">
+						<label>
+							<input type="radio" value="Yes" name="students" {{itemIsChecked year_event.students "Yes"}}>
+							Yes
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" value="No" name="students" {{itemIsChecked year_event.students "No"}}>
+							No
+						</label>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-initial-date">
+				<label for="initialDate">
+					From
+				</label>
+				<div class="input-div">
+					<div class="input-group date">
+						<input type="text" name="initialDate" value="{{formatDate year_event.initialDate 'MM-DD-YYYY'}}" class="form-control" data-type="date" data-format="MM-DD-YYYY">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar">
+							</i>
+						</span>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-end-date">
+				<label for="endDate">
+					To
+				</label>
+				<div class="input-div">
+					<div class="input-group date">
+						<input type="text" name="endDate" value="{{formatDate year_event.endDate 'MM-DD-YYYY'}}" class="form-control" data-type="date" data-format="MM-DD-YYYY">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar">
+							</i>
+						</span>
+					</div>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-notes">
+				<label for="notes">
+					Notes
+				</label>
+				<div class="input-div">
+					<textarea class="form-control" name="notes">{{year_event.notes}}</textarea>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="submit-div">
+					<button id="form-submit-button" class="btn btn-success" type="submit">
+						<span class="fa fa-check">
+						</span>
+						Save
+					</button>
+					<a href="#" id="form-cancel-button" class="btn btn-default">
+						Cancel
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</template>
+
